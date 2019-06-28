@@ -1,0 +1,18 @@
+.card-wrapper :hover {
+  cursor: pointer;
+}
+
+div .card-wrapper,
+mat-card {
+  width: 100%;
+}
+
+img {
+  height: 300px;
+}
+
+span {
+  right: 5px;
+  top: 10px;
+  position: absolute;
+}

@@ -1,0 +1,26 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" [(opened)]="opened">
+    <ngx-auth-firebaseui-user
+      (onSignOut)="signOut()"
+      [canDeleteAccount]="false"
+    ></ngx-auth-firebaseui-user>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <div *ngIf="opened">
+        <button (click)="toggleSidebar()" mat-icon-button>
+          <fa-icon icon="times" size="lg"></fa-icon>
+        </button>
+      </div>
+      <div *ngIf="!opened">
+        <button (click)="toggleSidebar()" mat-icon-button>
+          <fa-icon icon="bars" size="lg"></fa-icon>
+        </button>
+      </div>
+
+      <span class="pl-2">Tour Buddy</span>
+    </mat-toolbar>
+    <router-outlet name="main"></router-outlet
+  ></mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,62 @@
+<div class="container pt-3" height="100%">
+  <div *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  <h1 class="mat-display-1 mb-3">My Tours</h1>
+  <div *ngIf="tours">
+    <button (click)="createTour()" color="primary" mat-raised-button>
+      Create Tour
+    </button>
+
+    <div
+      class="pt-3"
+      fxLayout="row wrap"
+      fxLayoutGap.gt-sm="10px"
+      fxLayoutGap.gt-xs="5px"
+    >
+      <div
+        class="card-wrapper pb-3"
+        *ngFor="let tour of tours | async"
+        fxFlex.gt-sm="24%"
+        fxFlex.gt-xs="48%"
+        [routerLink]="['../tour', tour.id , tour.tourName]"
+        (mouseover)="tour.showOptions = true"
+        (mouseout)="tour.showOptions = false"
+      >
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title> {{ tour.tourName }}</mat-card-title>
+            <mat-card-subtitle
+              >{{ tour.startDate.toDate() | date }} -
+              {{ tour.endDate.toDate() | date }}</mat-card-subtitle
+            >
+            <span [hidden]="!tour.showOptions">
+              <button mat-icon-button (click)="onCogClick($event)">
+                <mat-icon [matMenuTriggerFor]="menu" matSuffix
+                  >settings</mat-icon
+                >
+              </button>
+              <mat-menu #menu="matMenu" (mouseover)="tour.showOptions = true">
+                <button mat-menu-item (click)="editTour(tour)">Edit Tour</button>
+                <button mat-menu-item>Delete Tour</button>
+              </mat-menu>
+            </span>
+          </mat-card-header>
+
+          <img
+            *ngIf="tour.src"
+            mat-card-image
+            [lazyLoad]="tour.src | async"
+            [defaultImage]="defaultImage"
+            alt="Tour Flyer"
+          />
+          <img
+            *ngIf="!tour.src"
+            mat-card-image
+            src="https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzEwNC84MTkvb3JpZ2luYWwvY3V0ZS1raXR0ZW4uanBn"
+          />
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row justify-content-center pt-5">
+    <div id="login " class="col-md-5">
+      <ngx-auth-firebaseui
+        [guestEnabled]="false"
+        (onSuccess)="onSuccess($event)"
+        [providers]="['google']"
+      >
+      </ngx-auth-firebaseui>
+    </div>
+  </div>
+</div>
