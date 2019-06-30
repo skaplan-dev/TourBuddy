@@ -40,7 +40,7 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
-    "mapbox-gl": "^1.0.0W",
+    "mapbox-gl": "^1.0.0",
     "ng-lazyload-image": "^5.1.2",
     "ngx-auth-firebaseui": "^2.7.2",
     "ngx-mapbox-gl": "^3.2.0",
