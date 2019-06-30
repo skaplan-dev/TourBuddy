@@ -1,0 +1,15 @@
+language: node_js
+branches:
+  only:
+  - master
+
+before_script:
+- npm install
+
+script:
+- ng build --prod
+
+deploy:
+  provider: firebase
+  token:
+    secure: a4mZXqfI7KDJNJMie1feD0PkFKYJ6Iq8VGeT56eYGdePwsWeeISmdYJs7OFsxysRhCmnWdwaKrCdT82bx1lsGkkOsEPx9zjC8+8CSpJ22aYWaBFePrExEOvHvrMdn1IVN3sSk98gmiAJScPPBfnv7dYe6MQW1cN8u+h0RuJ0456cqAXJRVEBFr56EJ6DjnrIUUCvCQYwc69euZJn87cOlHKL7Z8Ti+boWjpRMEJu36EMOseD/fcNT4atiGpIvf707d6fhPq4V+8MijzwhpyWwG2JCOrzwKZtYC678wlCfIwXFNDeCohLu/V9G5HbyNSRb6VrLr+HcCbcG6LS4DtzP80oeWO4ifXMnuuf7j2Z+PqTIJOJj8m6mCu0nJMbVRwuoTQCmDHYV+jRMbLFi4YapZHGmm4+lcJKgBE9f0syNULXhHzXJtSiRPfADBcE2wQoHPRvsfaS80GXmFsfWl4o20+sbtmP+XxQBS93LKMKR/lD1sZUEPJAmNJL+XoPRMGj9HKhSccZVBIOGaddBxbVdF+prTcXThscQPBSYW0ELMX0y+RvwZZsCKKc6SiYpLgEIYMttSkbv3tLXDOX75VrT6HgkYOpHBU7Q8iO5hPMaVvRiVmMZmKdSRhlOR16HOlZWhXinBTFzO++A/IeIRci6l/T9IarZbdQdlEgnHedfR8=
