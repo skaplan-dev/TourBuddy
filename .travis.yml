@@ -7,7 +7,7 @@ branches:
   - master
 
 script:
-- ng build --prod
+- npm run build
 
 deploy:
   provider: firebase
