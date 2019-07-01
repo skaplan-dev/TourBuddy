@@ -9,6 +9,10 @@ import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
 
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
+export function callback() {
+  return 'Tour buddy';
+}
+
 @NgModule({
   declarations: [],
   imports: [
@@ -16,7 +20,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    NgxAuthFirebaseUIModule.forRoot(environment.firebase, () => 'Tour Buddy', {
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase, callback, {
       enableFirestoreSync: true,
       toastMessageOnAuthSuccess: true,
       toastMessageOnAuthError: true,
