@@ -3,7 +3,6 @@ import { Observable, Subscription } from 'rxjs';
 import { TourDate } from 'src/app/models/tourDate';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
-import { MapboxService } from 'src/app/services/mapbox.service';
 import { MapComponent } from '../map/map.component';
 import { DirectionsService } from 'src/app/services/directions.service';
 import { TourService } from 'src/app/services/tour.service';
@@ -19,10 +18,10 @@ import { OrderPipe } from 'ngx-order-pipe';
 export class TourDetailComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent)
   private mapComponent: MapComponent;
+  private tourDateSubscription: Subscription;
   public tourDates: Observable<TourDate[]>;
   public showSpinner: boolean = true;
-  private tourDateSubscription: Subscription;
-  private tourId: string;
+  public tourId: string;
   public tourName: string;
 
   constructor(
