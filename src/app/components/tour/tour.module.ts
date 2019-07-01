@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.dev';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
