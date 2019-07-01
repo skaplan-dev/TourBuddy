@@ -4,15 +4,14 @@ node_js:
   
 branches:
   only:
-  - master
+    - master
   
 before_script:
+  - npm install -g firebase-tools
   - npm install -g @angular/cli
  
 script:
-- npm run build
+  - npm run build
 
-deploy:
-  provider: firebase
-  token:
-    secure: wBNszGUGJsxQR7aHu22cAoZjy9yWWpNfR/FHazJNy3H5oWDQvobZ7L1QPjoCBm7FEI2XXGEiLvV1pBp3+ngRj9Qwjgi2TGxaan6EU6UaGJCGrR5W2wwjlR3cexGWbar3KLvuE9gxHxfvGVsIddjnDR2daKS4vi8p2p0S8OepFZDK7nYJfBWVdzrl+2oNQb1w8yhWP6nr9GOVZ1kngczjcF1pEi3egt9jWdoMD7yNAjgxnF4IFV4D1guhkoZ2Jl4fGrLa/GHvHxEvXfyXTCy+PeyIRyVBtRhXhtuiC1fT0U7Cz1Z6f17bsb2Q5ge3xugfsuRxdSKjw/tx2zSLI1Mp4+cQ27Q/KCKNoDx7+CxiID/EFhqxFSUfXFtqTZcXqAeLFJqAEespnU5WItd4ANn5s+1qh8YovGC/stVve2LZVQlsh8Xx+Sb8f7tPhwoSeolkeuLWXoSBnrL8Fe2gZZn1S2xtD1vRNqh8c/VfxWSxJQBTbqhdsNsovRvT8ofJS6d2wjYfdvxF9FyziD/IofoHCCRvcALcsGZ0aypy1M7R+j+4nZCn8Z+aS6tGDmmK2qat/ApoptJoh7a64a4Rdxnz8xQsLo25+VpK+NTtG3lkuqPQkfyHUA+PvoZ+XXi6LiUzXcgRORbu34+fcmc1Zmsm/5JThydPBcxAAhxJh0vBeaE=
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN
