@@ -31,6 +31,10 @@ const routes: Routes = [
         outlet: 'main'
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 @NgModule({
