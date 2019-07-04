@@ -1,12 +1,12 @@
 {
-  "name": "firebase-poc",
-  "version": "0.0.0",
+  "name": "tour-buddy",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "config": "node ./scripts/set-env.ts",
     "start": "npm run config -- --environment=dev && ng serve",
     "build": "npm run config -- --environment=prod && ng build --prod",
-    "test": "ng test",
+    "test": "ng test --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
