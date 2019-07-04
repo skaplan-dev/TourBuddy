@@ -16,7 +16,7 @@ import { OrderPipe } from 'ngx-order-pipe';
   styleUrls: ['./tour-detail.component.css']
 })
 export class TourDetailComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent)
+  @ViewChild(MapComponent, { static: false })
   private mapComponent: MapComponent;
   private tourDateSubscription: Subscription;
   public tourDates: Observable<TourDate[]>;
@@ -59,16 +59,6 @@ export class TourDetailComponent implements OnInit, OnDestroy {
     this.mapComponent.clearMap();
   }
 
-  // public getCoordinates(searchText: string) {
-  //   this.mapboxService
-  //     .getCoordinates(searchText)
-  //     .subscribe((coordinates: any) => {
-  //       this.directionsService.addWaypoint(
-  //         coordinates.features[0].geometry,
-  //         this.tourId
-  //       );
-  //     });
-  // }
 
   public createTourDate() {
     const dialogRef = this.dialog.open(TourDateCreateComponent, {
