@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment.dev';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -16,6 +15,8 @@ import { MetersToMilesPipe } from 'src/app/pipes/meters-to-miles.pipe';
 import { SecondsToHoursPipe } from 'src/app/pipes/seconds-to-hours.pipe';
 import { TourDateCreateComponent } from './tourDate/tour-date-create/tour-date-create.component';
 import { OrderModule } from 'ngx-order-pipe';
+import { TourRoutingModule } from './tour-routing.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,6 @@ import { OrderModule } from 'ngx-order-pipe';
   ],
   imports: [
     CommonModule,
-    BrowserModule,
     RouterModule,
     MaterialModule,
     NgxMapboxGLModule.withConfig({
@@ -39,7 +39,8 @@ import { OrderModule } from 'ngx-order-pipe';
     FormsModule,
     ReactiveFormsModule,
     LazyLoadImageModule,
-    OrderModule
+    OrderModule,
+    TourRoutingModule
   ],
   entryComponents: [
     TourCreateComponent,
