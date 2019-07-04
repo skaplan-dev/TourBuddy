@@ -13,7 +13,8 @@ import { DirectionsService } from 'src/app/services/directions.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  @ViewChild('map') map: any;
+  constructor(private directionsService: DirectionsService) {}
+  @ViewChild('map', { static: false }) map: any;
   @Input() tourId: string;
   public directions: Observable<MapboxDirections[]>;
   public directionsId: string;
@@ -26,7 +27,8 @@ export class MapComponent implements OnInit {
   };
   public showExpandIcon: boolean;
   public mapMoved: boolean;
-  constructor(private directionsService: DirectionsService) {}
+
+  public toggleMapPosition;
 
   ngOnInit() {}
 
@@ -166,6 +168,4 @@ export class MapComponent implements OnInit {
       shortestDrive: 0
     };
   }
-
-  public toggleMapPosition;
 }

@@ -1,16 +1,16 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from '@angular/forms';
-import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   MatChipInputEvent,
   MatSelect
 } from '@angular/material';
+import {
+  FormGroup,
+  FormControl,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { MapboxService } from 'src/app/services/mapbox.service';
@@ -22,7 +22,7 @@ import { TourDate } from 'src/app/models/tourDate';
   styleUrls: ['./tour-date-create.component.css']
 })
 export class TourDateCreateComponent implements OnInit {
-  @ViewChild('singleSelect') singleSelect: MatSelect;
+  @ViewChild('singleSelect', { static: false }) singleSelect: MatSelect;
 
   public form: FormGroup;
   public bands = [];
