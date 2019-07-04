@@ -2,18 +2,24 @@ language: node_js
 node_js: 
   "11"
 
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+   
 jobs:
   include:
-    - stage: dependencies
-    - script: npm install -g firebase-tools
-    - script: npm install -g @angular/cli
     - stage: build
     - script: npm run build
     - stage: deploy
-    - script: firebase deploy --token $FIREBASE_TOKEN
+    - script: 
+      - npm install -g @angular/cli
+      - npm install -g firebase-tools
+      - firebase deploy --token $FIREBASE_TOKEN
     
 stages:
-  - dependencies
   - build
   - name: deploy
-    if: branch = master
+    if: branch = master AND type = push
