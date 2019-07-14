@@ -1,22 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TourCreateComponent } from './tour-create.component';
 
 describe('TourCreateComponent', () => {
   let component: TourCreateComponent;
-  let fixture: ComponentFixture<TourCreateComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TourCreateComponent ]
-    })
-    .compileComponents();
-  }));
+  const dialogRef = jasmine.createSpyObj('MatDialog', ['close']);
+  const mat_dialog_data = jasmine.createSpyObj('tour', ['']);
+  const fb = jasmine.createSpyObj('FormBuilder', ['group']);
+  const fileService = jasmine.createSpyObj('fileService', ['uploadFile']);
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TourCreateComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new TourCreateComponent(
+      dialogRef,
+      mat_dialog_data,
+      fb,
+      fileService
+    );
   });
 
   it('should create', () => {

@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TourDetailComponent } from './tour-detail.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { OrderModule } from 'ngx-order-pipe';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { of, BehaviorSubject } from 'rxjs';
+import { DirectionsService } from 'src/app/services/directions.service';
+import { TourService } from 'src/app/services/tour.service';
+import { TourDate } from 'src/app/models/tourDate';
 
 describe('TourDetailComponent', () => {
   let component: TourDetailComponent;
@@ -8,9 +15,43 @@ describe('TourDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TourDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [TourDetailComponent],
+      imports: [OrderModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { paramMap: of(convertToParamMap({ id: 1 })) }
+        },
+        {
+          provide: MatDialog,
+          useValue: jasmine.createSpy('MatDialog')
+        },
+        {
+          provide: DirectionsService,
+          useValue: jasmine.createSpy('DirectionsService')
+        },
+        {
+          provide: TourService,
+          useValue: {
+            getTourDates: () => {
+              return {
+                snapshotChanges: () => {
+                  return {
+                    pipe: () => {
+                      const storeSubjectMock = new BehaviorSubject([
+                        { date: { toDate: () => {} } }
+                      ]);
+                      return storeSubjectMock.asObservable();
+                    }
+                  };
+                }
+              };
+            }
+          }
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

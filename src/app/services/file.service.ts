@@ -22,7 +22,7 @@ export class FileService {
   }
 
   public deleteFile(filePath) {
-    console.log(filePath)
+    console.log(filePath);
     this.storage.ref(filePath).delete();
   }
 }

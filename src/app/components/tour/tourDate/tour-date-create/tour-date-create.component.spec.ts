@@ -1,22 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TourDateCreateComponent } from './tour-date-create.component';
 
 describe('TourDateCreateComponent', () => {
   let component: TourDateCreateComponent;
-  let fixture: ComponentFixture<TourDateCreateComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TourDateCreateComponent ]
-    })
-    .compileComponents();
-  }));
-
+  const dialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
+  const mat_dialog_data = jasmine.createSpy('MAT_DIALOG_DATA');
+  const fb = jasmine.createSpyObj('FormBuilder', ['group']);
+  const mapboxService = jasmine.createSpyObj('MapboxService', [
+    'getCoordinates'
+  ]);
   beforeEach(() => {
-    fixture = TestBed.createComponent(TourDateCreateComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component = new TourDateCreateComponent(
+      dialogRef,
+      mat_dialog_data,
+      fb,
+      mapboxService
+    );
   });
 
   it('should create', () => {

@@ -16,7 +16,7 @@ import { TourEditComponent } from '../tour-edit/tour-edit.component';
 export class TourComponent implements OnInit, OnDestroy {
   public tours: Observable<Tour[]>;
   public showSpinner: boolean = true;
-  private toursSubscription: Subscription;
+  public toursSubscription: Subscription;
   public defaultImage =
     'https://www.publicdomainpictures.net/pictures/30000/nahled/plain-white-background.jpg';
   public showTours = false;
