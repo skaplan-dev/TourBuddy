@@ -17,9 +17,11 @@ jobs:
     - script: 
       - npm install -g @angular/cli
       - npm install -g firebase-tools
+      - npm run build
       - firebase deploy --token $FIREBASE_TOKEN
     
 stages:
-  - build
+  - name: build
+    if: branch != master
   - name: deploy
     if: branch = master AND type = push
