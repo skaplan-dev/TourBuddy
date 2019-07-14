@@ -28,7 +28,6 @@ import { TourModule } from './components/tour/tour.module';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-
     MaterialModule,
     NgxAuthFirebaseUIModule,
     TourModule
