@@ -10,36 +10,48 @@ import {
 } from '@angular/material';
 import { FileService } from 'src/app/services/file.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 describe('TourComponent', () => {
   let component: TourComponent;
   let fixture: ComponentFixture<TourComponent>;
-  const mockTourService = {
-    getTours: () => {
-      return {
-        snapshotChanges: () => {
-          return {
-            pipe: () => {
-              const storeSubjectMock = new BehaviorSubject([
-                {
-                  startDate: { toDate: () => {} },
-                  endDate: { toDate: () => {} }
-                }
-              ]);
-              return storeSubjectMock.asObservable();
-            }
-          };
-        }
-      };
-    }
-  };
+  const getTours = jasmine.createSpy('getTours').and.callFake(() => {
+    return {
+      snapshotChanges: () => {
+        return {
+          pipe: () => {
+            return new BehaviorSubject([
+              {
+                bandNames: ['pierre'],
+                endDate: {
+                  toDate: () => {
+                    return new Date();
+                  }
+                },
+                flyerRef: '0472498c-f34f-439e-a659-3f2c47a515d4',
+                id: 'tibRExCELIJQ2sMMWu8H',
+                startDate: {
+                  toDate: () => {
+                    return new Date();
+                  }
+                },
+                tourName: 'Pierre\'s Summer T',
+                uid: 'HNO0heNNVgTxZb0MRLiZCuFSnqC2'
+              }
+            ]).asObservable();
+          }
+        };
+      }
+    };
+  });
+  const tourService = { getTours: getTours };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TourComponent],
       providers: [
-        { provide: TourService, useValue: mockTourService },
+        { provide: TourService, useValue: tourService },
         { provide: MatDialog, useValue: jasmine.createSpy('matDialog') },
         { provide: FileService, useValue: jasmine.createSpy('fileService') }
       ],
