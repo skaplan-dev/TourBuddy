@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material';
 import { of, BehaviorSubject } from 'rxjs';
 import { DirectionsService } from 'src/app/services/directions.service';
 import { TourService } from 'src/app/services/tour.service';
-import { TourDate } from 'src/app/models/tourDate';
+import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
 
 describe('TourDetailComponent', () => {
   let component: TourDetailComponent;
@@ -15,7 +15,7 @@ describe('TourDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TourDetailComponent],
+      declarations: [TourDetailComponent, DirectionsFilterPipe],
       imports: [OrderModule],
       providers: [
         {
@@ -28,7 +28,10 @@ describe('TourDetailComponent', () => {
         },
         {
           provide: DirectionsService,
-          useValue: jasmine.createSpy('DirectionsService')
+          useValue: jasmine.createSpyObj('DirectionsService', [
+            'resetDirectionsService',
+            'getDirections'
+          ])
         },
         {
           provide: TourService,
