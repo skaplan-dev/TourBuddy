@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+  <div *ngIf="tourStats">
+    <div class="row">
+      <div class="col-6">
+        <mat-card>
+          <div class="card-header-red"></div>
+          <mat-card-title>
+            Total
+          </mat-card-title>
+          <mat-card-content>
+            {{ tourStats.hours | secondsToHours }} hrs
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card
+          matTooltip="Get an oil change every 3,000 miles!"
+          matTooltipPosition="above"
+        >
+          <div class="card-header-blue"></div>
+          <mat-card-title>
+            Distance
+          </mat-card-title>
+          <mat-card-content class="">
+            {{ tourStats.totalMiles | metersToMiles }} miles
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="row pt-4">
+      <div class="col-6">
+        <mat-card>
+          <div class="card-header-red"></div>
+          <mat-card-title>
+            Shortest
+          </mat-card-title>
+          <mat-card-content>
+            {{ tourStats.shortestDrive | secondsToHours }} hrs
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card
+          matTooltip="Try not to have any drives longer than 5hrs"
+          matTooltipPosition="below"
+        >
+          <div class="card-header-blue"></div>
+          <mat-card-title>
+            Longest
+          </mat-card-title>
+          <mat-card-content>
+            {{ tourStats.longestDrive | secondsToHours }} hrs
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

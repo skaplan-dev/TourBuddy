@@ -48,4 +48,20 @@ export class TourService {
   public deleteTourDates(tourId: string) {
     this.db.doc<Tour>('tours/' + tourId).collection<any>('tourDates');
   }
+
+  public updateTourDate(tourDate: TourDate, tourId: string) {
+    this.db
+      .doc<Tour>('tours/' + tourId)
+      .collection<any>('tourDates')
+      .doc(tourDate.id)
+      .update(tourDate);
+  }
+
+  public deleteTourDate(tourDate: TourDate, tourId: string) {
+    this.db
+      .doc<Tour>('tours/' + tourId)
+      .collection<any>('tourDates')
+      .doc(tourDate.id)
+      .delete();
+  }
 }

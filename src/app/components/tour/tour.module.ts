@@ -17,6 +17,9 @@ import { TourDateCreateComponent } from './tourDate/tour-date-create/tour-date-c
 import { OrderModule } from 'ngx-order-pipe';
 import { TourRoutingModule } from './tour-routing.module';
 import { CommonModule } from '@angular/common';
+import { DrivingStatsComponent } from './driving-stats/driving-stats.component';
+import { TourDetailFormComponent } from './tour-detail/tour-detail-form/tour-detail-form.component';
+import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { CommonModule } from '@angular/common';
     TourEditComponent,
     MetersToMilesPipe,
     SecondsToHoursPipe,
-    TourDateCreateComponent
+    TourDateCreateComponent,
+    DrivingStatsComponent,
+    TourDetailFormComponent,
+    DirectionsFilterPipe
   ],
   imports: [
     CommonModule,

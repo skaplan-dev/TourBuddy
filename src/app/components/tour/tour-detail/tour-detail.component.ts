@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TourDate } from 'src/app/models/tourDate';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, map } from 'rxjs/operators';
-import { MapComponent } from '../map/map.component';
 import { DirectionsService } from 'src/app/services/directions.service';
 import { TourService } from 'src/app/services/tour.service';
 import { MatDialog } from '@angular/material';
 import { TourDateCreateComponent } from '../tourDate/tour-date-create/tour-date-create.component';
 import { OrderPipe } from 'ngx-order-pipe';
+import { MapboxDirections } from 'src/app/models/mapbox';
 
 @Component({
   selector: 'app-tour-detail',
@@ -16,20 +16,18 @@ import { OrderPipe } from 'ngx-order-pipe';
   styleUrls: ['./tour-detail.component.css']
 })
 export class TourDetailComponent implements OnInit, OnDestroy {
-  @ViewChild(MapComponent, { static: false })
-  private mapComponent: MapComponent;
   private tourDateSubscription: Subscription;
   public tourDates: Observable<TourDate[]>;
   public showSpinner: boolean = true;
   public tourId: string;
   public tourName: string;
+  public directions: Observable<MapboxDirections[]>;
 
   constructor(
     private route: ActivatedRoute,
     private tourService: TourService,
     private directionsService: DirectionsService,
-    public dialog: MatDialog,
-    private orderPipe: OrderPipe
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -37,28 +35,45 @@ export class TourDetailComponent implements OnInit, OnDestroy {
       switchMap((params: ParamMap) => {
         this.tourId = params.get('id');
         this.tourName = params.get('tourName');
+        this.directionsService.resetDirectionsService();
+        this.directions = this.directionsService
+          .getDirections(this.tourId)
+          .snapshotChanges()
+          .pipe(
+            map(actions =>
+              actions.map(a => {
+                const data = a.payload.doc.data() as any;
+                this.directionsService.setLocalDirections(data);
+                const directionsId = a.payload.doc.id;
+                if (!directionsId) {
+                  this.directionsService.resetDirectionsService();
+                } else {
+                  this.directionsService.setDirectionsId(directionsId);
+                }
+                return data;
+              })
+            )
+          );
+
         return this.tourService
           .getTourDates(this.tourId)
           .snapshotChanges()
           .pipe(
             map(actions =>
               actions.map(a => {
-                return a.payload.doc.data() as TourDate;
+                const tourDate = a.payload.doc.data() as TourDate;
+                tourDate.id = a.payload.doc.id;
+                return tourDate;
               })
             )
           );
       })
     );
+
     this.tourDateSubscription = this.tourDates.subscribe(() => {
       this.showSpinner = false;
     });
   }
-
-  public clearDirections() {
-    this.directionsService.clearDirections(this.tourId);
-    this.mapComponent.clearMap();
-  }
-
 
   public createTourDate() {
     const dialogRef = this.dialog.open(TourDateCreateComponent, {
@@ -79,7 +94,24 @@ export class TourDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   public ngOnDestroy() {
     this.tourDateSubscription.unsubscribe();
+  }
+
+  public updateTourDate(event) {
+    this.tourService.updateTourDate(event.tourDate, this.tourId);
+    if (event.locationChange) {
+      this.directionsService.updateWaypoint(
+        event.coordinates,
+        this.tourId,
+        event.tourDate.date
+      );
+    }
+  }
+
+  public deleteTourDate(event) {
+    this.tourService.deleteTourDate(event, this.tourId);
+    this.directionsService.removeWaypoint(event.date, this.tourId);
   }
 }

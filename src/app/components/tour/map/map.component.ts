@@ -1,10 +1,13 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { MapboxDirections } from 'src/app/models/mapbox';
+import {
+  Component,
+  Input,
+  ViewChild,
+  SimpleChanges,
+  OnChanges,
+  OnInit
+} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { forEach, size, sumBy, max, min, get, _map } from 'lodash';
-import { TourStats } from 'src/app/models/tourStats';
+import { forEach, _map } from 'lodash';
 import { DirectionsService } from 'src/app/services/directions.service';
 
 @Component({
@@ -12,67 +15,24 @@ import { DirectionsService } from 'src/app/services/directions.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnChanges {
   constructor(private directionsService: DirectionsService) {}
   @ViewChild('map', { static: false }) map: any;
-  @Input() tourId: string;
-  public directions: Observable<MapboxDirections[]>;
+  @Input() directions: any;
   public directionsId: string;
-  public tourStats: TourStats = {
-    numShows: 0,
-    totalMiles: 0,
-    hours: 0,
-    longestDrive: 0,
-    shortestDrive: 0
-  };
-  public showExpandIcon: boolean;
-  public mapMoved: boolean;
 
-  public toggleMapPosition;
-
-  ngOnInit() {}
-
-  public drawGeo() {
-    this.directions = this.directionsService
-      .getDirections(this.tourId)
-      .snapshotChanges()
-      .pipe(
-        map(actions =>
-          actions.map(a => {
-            const data = a.payload.doc.data() as any;
-            this.directionsService.setLocalDirections(data);
-            this.directionsId = a.payload.doc.id;
-            data.waypoints = this.getWaypoints(data);
-            this.updateMap(data);
-            this.setBounds(data);
-            this.getStats(data);
-            if (!this.directionsId) {
-              this.directionsService.clearWaypointsAndDirectionsID();
-            } else {
-              this.directionsService.setDirectionsId(this.directionsId);
-            }
-            return data;
-          })
-        )
-      );
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.directions.firstChange) {
+      this.directions = changes.directions.currentValue[0];
+      this.drawMap();
+    }
   }
 
-  public getStats(data: any) {
-    this.tourStats.numShows = size(data.waypoints);
-    if (data.legs.length > 1) {
-      this.tourStats.totalMiles = sumBy(data.legs, leg => {
-        return get(leg, 'legs.distance');
-      });
-
-      this.tourStats.hours = sumBy(data.legs, leg => {
-        return get(leg, 'legs.duration');
-      });
-      const durationArray = new Array();
-      forEach(data.legs, obj => {
-        durationArray.push(get(obj, 'legs.duration'));
-      });
-      this.tourStats.longestDrive = max(durationArray);
-      this.tourStats.shortestDrive = min(durationArray);
+  public drawMap() {
+    if (this.map && this.directions) {
+      this.directions.waypoints = this.getWaypoints(this.directions);
+      this.updateMap(this.directions);
+      this.setBounds(this.directions);
     }
   }
 
@@ -155,17 +115,6 @@ export class MapComponent implements OnInit {
       type: 'Feature',
       properties: {}
     });
-    this.resetStats();
-    this.directionsService.clearWaypointsAndDirectionsID();
-  }
-
-  public resetStats() {
-    this.tourStats = {
-      numShows: 0,
-      totalMiles: 0,
-      hours: 0,
-      longestDrive: 0,
-      shortestDrive: 0
-    };
+    this.directionsService.resetDirectionsService();
   }
 }

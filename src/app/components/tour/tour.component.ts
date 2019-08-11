@@ -36,6 +36,7 @@ export class TourComponent implements OnInit, OnDestroy {
             const data = a.payload.doc.data() as Tour;
             if (data.flyerRef) {
               data.src = this.fileService.getDownloadURL(data.flyerRef);
+              data.src.loaded = false;
             }
             data.id = a.payload.doc.id;
             return data;
