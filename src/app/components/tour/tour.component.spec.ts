@@ -17,39 +17,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('TourComponent', () => {
   let component: TourComponent;
   let fixture: ComponentFixture<TourComponent>;
+  const tourServiceMock = jasmine.createSpyObj('getTours', ['getTours']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TourComponent],
       providers: [
+        { provide: TourService, useValue: tourServiceMock },
         { provide: MatDialog, useValue: jasmine.createSpy('matDialog') },
-        { provide: FileService, useValue: jasmine.createSpy('fileService') },
-        {
-          provide: TourService,
-          useValue: {
-            getTours: () => {
-              return {
-                snapshotChanges: () => {
-                  return {
-                    pipe: () => {
-                      const storeSubjectMock = new BehaviorSubject([
-                        {
-                          startDate: { toDate: () => {} },
-                          endDate: { toDate: () => {} }
-                        },
-                        {
-                          startDate: { toDate: () => {} },
-                          endDate: { toDate: () => {} }
-                        }
-                      ]);
-                      return storeSubjectMock.asObservable();
-                    }
-                  };
-                }
-              };
-            }
-          }
-        }
+        { provide: FileService, useValue: jasmine.createSpy('fileService') }
       ],
       imports: [
         MatProgressSpinnerModule,
@@ -64,6 +40,18 @@ describe('TourComponent', () => {
   }));
 
   beforeEach(() => {
+    tourServiceMock.getTours.and.returnValue({
+      snapshotChanges: () => {
+        return {
+          pipe: () => {
+            const storeSubjectMock = new BehaviorSubject([
+              { startDate: { toDate: () => {} }, endDate: { toDate: () => {} } }
+            ]);
+            return storeSubjectMock.asObservable();
+          }
+        };
+      }
+    });
     fixture = TestBed.createComponent(TourComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
