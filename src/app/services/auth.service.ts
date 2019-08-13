@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private user: any;
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.user = user;
+      } else {
+        this.logOut();
       }
     });
   }
@@ -19,6 +22,6 @@ export class AuthService {
   }
 
   public logOut() {
-    this.afAuth.auth.signOut();
+    this.router.navigate(['/login']);
   }
 }

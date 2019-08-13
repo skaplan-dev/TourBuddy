@@ -15,6 +15,7 @@ import { ReplaySubject } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { MapboxService } from 'src/app/services/mapbox.service';
 import { TourDate } from 'src/app/models/tourDate';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-tour-date-create',
@@ -23,7 +24,7 @@ import { TourDate } from 'src/app/models/tourDate';
 })
 export class TourDateCreateComponent implements OnInit {
   @ViewChild('singleSelect', { static: false }) singleSelect: MatSelect;
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public form: FormGroup;
   public bands = [];
   public contacts: Contact[] = [

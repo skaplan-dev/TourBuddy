@@ -1,56 +1,41 @@
 import { TourComponent } from './tour.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { TourService } from 'src/app/services/tour.service';
-import {
-  MatDialog,
-  MatProgressSpinnerModule,
-  MatIconModule,
-  MatCardModule,
-  MatMenuModule
-} from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { FileService } from 'src/app/services/file.service';
-import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { BehaviorSubject } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { MaterialModule } from 'src/app/material/material.module';
 
 describe('TourComponent', () => {
   let component: TourComponent;
   let fixture: ComponentFixture<TourComponent>;
-  const mockTourService = {
-    getTours: () => {
-      return {
-        snapshotChanges: () => {
-          return {
-            pipe: () => {
-              const storeSubjectMock = new BehaviorSubject([
-                {
-                  startDate: { toDate: () => {} },
-                  endDate: { toDate: () => {} }
-                }
-              ]);
-              return storeSubjectMock.asObservable();
-            }
-          };
-        }
-      };
-    }
-  };
+  const tourServiceMock = jasmine.createSpyObj('tourService', ['getTours']);
+
   beforeEach(async(() => {
+    tourServiceMock.getTours.and.returnValue({
+      snapshotChanges: () => {
+        return {
+          pipe: () => {}
+        };
+      }
+    });
     TestBed.configureTestingModule({
       declarations: [TourComponent],
       providers: [
-        { provide: TourService, useValue: mockTourService },
-        { provide: MatDialog, useValue: jasmine.createSpy('matDialog') },
-        { provide: FileService, useValue: jasmine.createSpy('fileService') }
+        { provide: TourService, useValue: tourServiceMock },
+        {
+          provide: MatDialog,
+          useValue: jasmine.createSpyObj('matDialog', ['open'])
+        },
+        {
+          provide: FileService,
+          useValue: jasmine.createSpyObj('fileService', ['getDownloadURL'])
+        }
       ],
-      imports: [
-        MatProgressSpinnerModule,
-        RouterTestingModule,
-        MatIconModule,
-        MatCardModule,
-        LazyLoadImageModule,
-        MatMenuModule
-      ]
+      imports: [RouterTestingModule, MaterialModule],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 

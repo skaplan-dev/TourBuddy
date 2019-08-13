@@ -1,0 +1,98 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <input
+          name="location"
+          matInput
+          placeholder="Location"
+          formControlName="location"
+        />
+        <mat-error *ngIf="form.controls.location.errors"
+          >Invalid location</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-chip-list #bandList>
+          <mat-chip *ngFor="let band of bands" (removed)="remove(band)">
+            {{ band.name }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            name="bandNames"
+            matInput
+            placeholder="Artists"
+            [matChipInputFor]="bandList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            formControlName="bandNames"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-select
+          formControlName="contact"
+          name="contact"
+          placeholder="Contact"
+          #singleSelect
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [placeholderLabel]="'Search...'"
+              [noEntriesFoundLabel]="'No matching contacts found'"
+              [formControl]="contactsFilterCtrl"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let contact of filteredContacts | async"
+            [value]="contact"
+          >
+            <span class="row justify-content-between align-items-center">
+              <div class="col">
+                {{ contact.name }}
+              </div>
+              <div class="col text-right mat-small">
+                {{ contact.location }}
+              </div>
+            </span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <textarea
+          name="notes"
+          formControlName="notes"
+          placeholder="Notes"
+          matInput
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6" align="right">
+      <div id="button-container" class="pt-2">
+        <button
+          [disabled]="form.invalid"
+          mat-raised-button
+          (click)="validateLocation()"
+          color="primary"
+        >
+          Save
+        </button>
+        <button mat-button color="warn" (click)="deleteTourDate()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

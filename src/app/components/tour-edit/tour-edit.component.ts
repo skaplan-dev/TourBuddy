@@ -10,6 +10,8 @@ import { Tour } from 'src/app/models/tour';
 import { FileService } from 'src/app/services/file.service';
 import { omit, forEach } from 'lodash';
 import { finalize } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+
 @Component({
   selector: 'app-tour-edit',
   templateUrl: './tour-edit.component.html',
@@ -19,7 +21,7 @@ export class TourEditComponent implements OnInit {
   public bands = [];
   public form: FormGroup;
   public uploadPercent: Observable<number>;
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public dialogRef: MatDialogRef<TourEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -29,7 +31,10 @@ export class TourEditComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      tourName: [this.data.tourName, [Validators.required, Validators.maxLength(17)]],
+      tourName: [
+        this.data.tourName,
+        [Validators.required, Validators.maxLength(17)]
+      ],
       startDate: [this.data.startDate.toDate(), Validators.required],
       endDate: [this.data.endDate.toDate(), Validators.required],
       bandNames: [],

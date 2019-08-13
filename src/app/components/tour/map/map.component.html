@@ -1,90 +1,13 @@
-<div class="row">
-  <div class="col-md-8">
-    <mat-card
-      (mouseover)="showExpandIcon = true"
-      (mouseout)="showExpandIcon = false"
-    >
-      <span [hidden]="!showExpandIcon">
-        <button mat-icon-button (click)="toggleMapPosition()">
-          <mat-icon matSuffix>remove</mat-icon>
-        </button>
-      </span>
-      <mat-card-title> Map </mat-card-title>
-      <mgl-map
-        #map
-        [style]="'mapbox://styles/mapbox/streets-v9'"
-        [zoom]="[3.5]"
-        [center]="[-98.5795, 39.8283]"
-        (load)="drawGeo()"
-      >
-        <div *ngFor="let waypoint of directions | async | keyvalue">
-          <div *ngFor="let item of waypoint.value.waypoints | keyvalue">
-            <mgl-marker [lngLat]="item.value">
-              <div class="marker"></div
-            ></mgl-marker>
-          </div>
-        </div>
-      </mgl-map>
-    </mat-card>
-  </div>
-
-  <div *ngIf="tourStats" class="col-md-4">
-    <h1 class="mat-h1 mb-3">Driving Stats</h1>
-    <mat-divider class="pb-4"></mat-divider>
-    <div class="row">
-      <div class="col-6">
-        <mat-card>
-          <div class="card-header-red"></div>
-          <mat-card-title>
-            Total
-          </mat-card-title>
-          <mat-card-content>
-            {{ tourStats.hours | secondsToHours }} hrs
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-6">
-        <mat-card
-          matTooltip="Get an oil change every 3,000 miles!"
-          matTooltipPosition="above"
-        >
-          <div class="card-header-blue"></div>
-          <mat-card-title>
-            Distance
-          </mat-card-title>
-          <mat-card-content class="">
-            {{ tourStats.totalMiles | metersToMiles }} miles
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-
-    <div class="row pt-4">
-      <div class="col-6">
-        <mat-card>
-          <div class="card-header-red"></div>
-          <mat-card-title>
-            Shortest
-          </mat-card-title>
-          <mat-card-content>
-            {{ tourStats.shortestDrive | secondsToHours }} hrs
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-6">
-        <mat-card
-          matTooltip="Try not to have any drives longer than 5hrs"
-          matTooltipPosition="below"
-        >
-          <div class="card-header-blue"></div>
-          <mat-card-title>
-            Longest
-          </mat-card-title>
-          <mat-card-content>
-            {{ tourStats.longestDrive | secondsToHours }} hrs
-          </mat-card-content>
-        </mat-card>
-      </div>
+<mgl-map
+  #map
+  [style]="'mapbox://styles/mapbox/streets-v9'"
+  [zoom]="[3.5]"
+  [center]="[-98.5795, 39.8283]"
+  (load)="drawMap()"
+>
+  <div *ngIf="directions">
+    <div *ngFor="let waypoint of directions.waypoints">
+      <mgl-marker [lngLat]="waypoint"> <div class="marker"></div></mgl-marker>
     </div>
   </div>
-</div>
+</mgl-map>

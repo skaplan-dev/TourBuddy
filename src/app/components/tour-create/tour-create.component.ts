@@ -10,6 +10,7 @@ import { omit } from 'lodash';
 import { FileService } from 'src/app/services/file.service';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-tour-create',
@@ -20,7 +21,7 @@ export class TourCreateComponent implements OnInit {
   public bands = [];
   public form: FormGroup;
   public uploadPercent: Observable<number>;
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   constructor(
     public dialogRef: MatDialogRef<TourCreateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Tour,
