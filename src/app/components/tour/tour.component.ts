@@ -4,9 +4,9 @@ import { TourService } from 'src/app/services/tour.service';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material';
-import { TourCreateComponent } from '../tour-create/tour-create.component';
+import { TourCreateComponent } from './tour-create/tour-create.component';
 import { FileService } from 'src/app/services/file.service';
-import { TourEditComponent } from '../tour-edit/tour-edit.component';
+import { TourEditComponent } from './tour-edit/tour-edit.component';
 
 @Component({
   selector: 'app-tour',
