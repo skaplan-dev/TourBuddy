@@ -20,6 +20,8 @@
           matInput
           placeholder="Artists"
           [matChipInputFor]="bandList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
           formControlName="bandNames"
           (matChipInputTokenEnd)="add($event)"
         />
@@ -37,7 +39,7 @@
         matSuffix
         [for]="startDate"
       ></mat-datepicker-toggle>
-      <mat-datepicker #startDate></mat-datepicker>
+      <mat-datepicker touchUi #startDate></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
       <input
@@ -48,7 +50,7 @@
         formControlName="endDate"
       />
       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-      <mat-datepicker #endDate></mat-datepicker>
+      <mat-datepicker touchUi #endDate></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
       <ngx-mat-file-input

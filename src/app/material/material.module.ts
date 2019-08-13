@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [],
   imports: [
@@ -45,7 +45,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatTooltipModule,
     NgxMatSelectSearchModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ScrollingModule
   ],
   exports: [
     MatSidenavModule,
@@ -68,7 +69,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatTooltipModule,
     NgxMatSelectSearchModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ScrollingModule
   ]
 })
 export class MaterialModule {}

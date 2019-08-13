@@ -10,7 +10,7 @@
         formControlName="date"
       />
       <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
-      <mat-datepicker #date></mat-datepicker>
+      <mat-datepicker touchUi #date></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
@@ -69,6 +69,8 @@
           matInput
           placeholder="Artists"
           [matChipInputFor]="bandList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
           formControlName="bandNames"
           (matChipInputTokenEnd)="add($event)"
         />

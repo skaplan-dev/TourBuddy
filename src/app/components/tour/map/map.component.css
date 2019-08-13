@@ -1,5 +1,5 @@
 mgl-map {
-  height: 425px;
+  height: 525px;
 }
 
 .marker {
@@ -9,34 +9,4 @@ mgl-map {
   height: 25px;
   border-radius: 50%;
   cursor: pointer;
-}
-
-.card-header-red {
-  height: 5px;
-  background-color: red;
-  top: 0;
-  left: 0;
-  padding: 0;
-  position: absolute;
-  width: 100%;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-}
-
-.card-header-blue {
-  height: 5px;
-  background-color: #3f51b5;
-  top: 0;
-  left: 0;
-  padding: 0;
-  position: absolute;
-  width: 100%;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-}
-
-span {
-  right: 5px;
-  top: 5px;
-  position: absolute;
 }
