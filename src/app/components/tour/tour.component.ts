@@ -13,7 +13,7 @@ import { TourEditComponent } from '../tour-edit/tour-edit.component';
   templateUrl: './tour.component.html',
   styleUrls: ['./tour.component.css']
 })
-export class TourComponent implements OnInit, OnDestroy {
+export class TourComponent implements OnInit {
   public tours: Observable<Tour[]>;
   public showSpinner: boolean = true;
   public toursSubscription: Subscription;
@@ -43,10 +43,6 @@ export class TourComponent implements OnInit, OnDestroy {
           })
         )
       );
-
-    this.toursSubscription = this.tours.subscribe(() => {
-      this.showSpinner = false;
-    });
   }
 
   public createTour() {
@@ -74,10 +70,6 @@ export class TourComponent implements OnInit, OnDestroy {
         this.tourService.updateTour(result as Tour);
       }
     });
-  }
-
-  public ngOnDestroy() {
-    this.toursSubscription.unsubscribe();
   }
 
   public onCogClick(event) {

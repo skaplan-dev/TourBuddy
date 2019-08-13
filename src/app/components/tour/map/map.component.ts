@@ -16,10 +16,11 @@ import { DirectionsService } from 'src/app/services/directions.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnChanges {
-  constructor(private directionsService: DirectionsService) {}
   @ViewChild('map', { static: false }) map: any;
   @Input() directions: any;
   public directionsId: string;
+
+  constructor(private directionsService: DirectionsService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.directions.firstChange) {

@@ -7,7 +7,8 @@ mat-card {
   width: 100%;
 }
 
-img, .img-container {
+img,
+.img-container {
   height: 300px;
 }
 

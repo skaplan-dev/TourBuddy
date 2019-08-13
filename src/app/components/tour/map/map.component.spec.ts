@@ -3,25 +3,20 @@ import { MapComponent } from './map.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SecondsToHoursPipe } from 'src/app/pipes/seconds-to-hours.pipe';
 import { MetersToMilesPipe } from 'src/app/pipes/meters-to-miles.pipe';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { HttpClient } from '@angular/common/http';
+import { DirectionsService } from 'src/app/services/directions.service';
 
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
+  const directionsServiceMock = jasmine.createSpyObj('directionsService', [
+    'resetDirectionsService'
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MapComponent, SecondsToHoursPipe, MetersToMilesPipe],
       providers: [
-        {
-          provide: AngularFirestore,
-          useValue: jasmine.createSpy('AngularFirestore')
-        },
-        {
-          provide: HttpClient,
-          useValue: jasmine.createSpy('HttpClient')
-        }
+        { provide: DirectionsService, useValue: directionsServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
