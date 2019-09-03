@@ -7,7 +7,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TourCreateComponent } from './tour-create.component';
 import { FileService } from 'src/app/services/file.service';
-
 describe('TourCreateComponent', () => {
   let component: TourCreateComponent;
   let fixture: ComponentFixture<TourCreateComponent>;

@@ -1,13 +1,140 @@
 <div class="container">
-  <div class="row justify-content-center pt-5">
-    <div id="login " class="col-md-5">
-      <ngx-auth-firebaseui
-        [guestEnabled]="false"
-        (onSuccess)="onSuccess($event)"
-        [providers]="['']"
-        [registrationEnabled]="false"
-      >
-      </ngx-auth-firebaseui>
+  <div nz-row id="row" nzType="flex" nzJustify="space-around" nzAlign="middle">
+    <div id="form-col" nz-col [nzXs]="24" [nzSm]="8">
+      <nz-card [nzBodyStyle]="{ padding: '0px' }">
+        <nz-card-tab>
+          <nz-tabset>
+            <nz-tab nzTitle="Login">
+              <form nz-form [formGroup]="loginForm" class="login-form">
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Please input your email!">
+                    <nz-input-group nzPrefixIcon="user">
+                      <input
+                        type="text"
+                        nz-input
+                        formControlName="email"
+                        placeholder="Email"
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Please input your Password!">
+                    <nz-input-group nzPrefixIcon="lock">
+                      <input
+                        type="password"
+                        nz-input
+                        formControlName="password"
+                        placeholder="Password"
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control>
+                    <label nz-checkbox formControlName="remember">
+                      <span>Remember me</span>
+                    </label>
+
+                    <a class="login-form-forgot" class="login-form-forgot"
+                      >Forgot password</a
+                    >
+                    <button
+                      nz-button
+                      class="login-form-button"
+                      [nzType]="'primary'"
+                      [disabled]="!loginForm.valid"
+                      (click)="emailLogin()"
+                    >
+                      Log in
+                    </button>
+                    <button
+                      nz-button
+                      class="login-form-button"
+                      (click)="googleLogin()"
+                    >
+                      <i nz-icon nzType="google" nzTheme="outline"></i>
+                      <span>Google</span>
+                    </button>
+                    Don't have an account?
+                    <a>Register now!</a>
+                  </nz-form-control>
+                </nz-form-item>
+              </form>
+            </nz-tab>
+            <nz-tab nzTitle="Register">
+              <form nz-form [formGroup]="registerForm" class="login-form">
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Please input your name!">
+                    <nz-input-group nzPrefixIcon="smile">
+                      <input
+                        type="text"
+                        nz-input
+                        formControlName="name"
+                        placeholder="Name"
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Please input your email!">
+                    <nz-input-group nzPrefixIcon="user">
+                      <input
+                        type="text"
+                        nz-input
+                        formControlName="email"
+                        placeholder="Email"
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control nzErrorTip="Please input your password!">
+                    <nz-input-group nzPrefixIcon="lock">
+                      <input
+                        type="password"
+                        nz-input
+                        formControlName="password"
+                        placeholder="Password"
+                      />
+                    </nz-input-group>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-control>
+                    <label nz-checkbox formControlName="remember">
+                      <span>Remember me</span>
+                    </label>
+
+                    <button
+                      nz-button
+                      class="login-form-button"
+                      [nzType]="'primary'"
+                      [disabled]="!registerForm.valid"
+                      (click)="emailRegister()"
+                    >
+                      Register
+                    </button>
+                    <button
+                      nz-button
+                      class="login-form-button"
+                      (click)="googleLogin()"
+                    >
+                      <i nz-icon nzType="google" nzTheme="outline"></i
+                      ><span>Google</span>
+                    </button>
+                    Already have an account?
+                    <a>Sign in!</a>
+                  </nz-form-control>
+                </nz-form-item>
+              </form>
+            </nz-tab>
+          </nz-tabset>
+        </nz-card-tab>
+      </nz-card>
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="12">
+      <img src="../../../assets/bus@2x.png" />
     </div>
   </div>
 </div>

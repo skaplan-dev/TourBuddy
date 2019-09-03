@@ -1,123 +1,41 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatChipInputEvent,
-  MatSelect
-} from '@angular/material';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
+import { Component, OnInit, DoCheck, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Contact } from 'src/app/models/contact';
-import { MapboxService } from 'src/app/services/mapbox.service';
-import { TourDate } from 'src/app/models/tourDate';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-tour-date-create',
   templateUrl: './tour-date-create.component.html',
   styleUrls: ['./tour-date-create.component.css']
 })
-export class TourDateCreateComponent implements OnInit {
-  @ViewChild('singleSelect', { static: false }) singleSelect: MatSelect;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+export class TourDateCreateComponent implements OnInit, DoCheck {
   public form: FormGroup;
-  public bands = [];
   public contacts: Contact[] = [
     { name: 'Joe', email: 'joe@gmail.com', location: 'Boston, MA' },
     { name: 'Tom', email: 'joe@gmail.com', location: 'Baton Rouge, LA' },
     { name: 'Rob', email: 'joe@gmail.com', location: 'New York, New York' },
     { name: 'Jess', email: 'joe@gmail.com', location: 'San Francisco, CA' }
   ];
-  public contactsFilterCtrl: FormControl = new FormControl('');
-  public filteredContacts: ReplaySubject<Contact[]> = new ReplaySubject<
-    Contact[]
-  >(1);
+  public formValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(
-    public dialogRef: MatDialogRef<TourDateCreateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private fb: FormBuilder,
-    private mapboxService: MapboxService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       date: ['', Validators.required],
+      location: ['', Validators.required],
       contact: [''],
-      bandNames: [],
-      location: ['', [Validators.required, Validators.minLength(5)]],
-      notes: ['']
-    });
-
-    this.filteredContacts.next(this.contacts.slice());
-
-    this.contactsFilterCtrl.valueChanges.subscribe(() => {
-      this.filterContacts();
+      venue: [''],
+      guarantee: [],
+      notes: [''],
+      status: ['', Validators.required]
     });
   }
 
-  public add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || '').trim()) {
-      this.bands.push({ name: value.trim() });
-    }
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  public remove(chip: any): void {
-    const index = this.bands.indexOf(chip);
-
-    if (index >= 0) {
-      this.bands.splice(index, 1);
-    }
-  }
-
-  protected filterContacts() {
-    if (!this.contacts) {
-      return;
-    }
-    let search = this.contactsFilterCtrl.value;
-    if (!search) {
-      this.filteredContacts.next(this.contacts.slice());
-      return;
+  public ngDoCheck() {
+    if (this.form.valid) {
+      this.formValid.emit(true);
     } else {
-      search = search.toLowerCase();
+      this.formValid.emit(false);
     }
-    this.filteredContacts.next(
-      this.contacts.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
-    );
-  }
-
-  public getCoordinatesAndSubmit() {
-    this.mapboxService
-      .getCoordinates(this.form.get('location').value)
-      .subscribe((coordinates: any) => {
-        if (coordinates.features.length > 0) {
-          this.submit(coordinates.features[0].geometry);
-        } else {
-          this.form.get('location').setErrors({});
-          return undefined;
-        }
-      });
-  }
-
-  public submit(coordinates: any) {
-    const tourDate: TourDate = this.form.value;
-    tourDate.bandNames = this.bands.map(band => {
-      return band.name;
-    });
-    this.dialogRef.close({
-      coordinates: coordinates,
-      tourDate: tourDate
-    });
   }
 }

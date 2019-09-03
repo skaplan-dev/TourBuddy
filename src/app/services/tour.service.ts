@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Tour } from '../models/tour';
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
+  AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { TourDate } from '../models/tourDate';
@@ -25,6 +26,10 @@ export class TourService {
     );
   }
 
+  public getTour(tourId: string): AngularFirestoreDocument<Tour> {
+    return this.db.collection('tours').doc(tourId);
+  }
+
   public getTourDates(tourId: string): AngularFirestoreCollection<TourDate> {
     return this.db
       .doc<Tour>('tours/' + tourId)
@@ -36,6 +41,17 @@ export class TourService {
       .collection('tours')
       .doc(tour.id)
       .update(tour);
+  }
+
+  public deleteTour(tourId) {
+    return this.db
+      .collection('tours')
+      .doc(tourId)
+      .delete();
+  }
+
+  public updateTourFlyer(tourId: string, tourFlyerLink: string) {
+    this.db.doc('tours/' + tourId).update({ flyerRef: tourFlyerLink });
   }
 
   public createTourDate(tourDate: TourDate, tourId: string) {

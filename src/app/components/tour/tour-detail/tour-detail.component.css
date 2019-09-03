@@ -1,13 +1,8 @@
-#spinner {
+.spinner {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 999;
-}
-
-.mat-expansion-panel-header-title,
-.mat-expansion-panel-header-description {
-  flex-basis: 0;
 }
 
 .mat-expansion-panel-header-description {
@@ -15,30 +10,27 @@
   align-items: center;
 }
 
-app-driving-stats {
-  width: 100%;
-}
-
-#tourDatesAccordion {
+.centerContent {
   height: 450px;
-  overflow-y: auto;
+  overflow: auto;
 }
 
-mat-accordion,
-mat-expansion-panel {
-  position: relative;
+.ant-row {
+  padding-bottom: 8px;
 }
 
-::ng-deep .mat-form-field-flex > .mat-form-field-infix {
-  padding: 0.4em 0px !important;
-}
-::ng-deep .mat-form-field-label-wrapper {
-  top: -1.5em;
+#tour-flyer-container {
+  height: 350px;
 }
 
-::ng-deep
-  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
-  .mat-form-field-label {
-  transform: translateY(-1.1em) scale(0.75);
-  width: 133.33333%;
+.tour-flyer {
+  height: 100%;
+}
+
+#tour-img {
+  height: 340px;
+}
+
+i {
+  vertical-align: middle;
 }

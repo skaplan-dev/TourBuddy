@@ -25,10 +25,16 @@
                 "glob": "**/*",
                 "input": "node_modules/ngx-auth-firebaseui/assets/",
                 "output": "./assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "./assets/"
               }
             ],
             "styles": [
               "src/styles.css",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",

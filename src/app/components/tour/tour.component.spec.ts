@@ -5,8 +5,8 @@ import { MatDialog } from '@angular/material';
 import { FileService } from 'src/app/services/file.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-
 import { MaterialModule } from 'src/app/material/material.module';
+import { NzModule } from 'src/app/nz/nz.module';
 
 describe('TourComponent', () => {
   let component: TourComponent;
@@ -34,7 +34,7 @@ describe('TourComponent', () => {
           useValue: jasmine.createSpyObj('fileService', ['getDownloadURL'])
         }
       ],
-      imports: [RouterTestingModule, MaterialModule],
+      imports: [RouterTestingModule, MaterialModule, NzModule],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));

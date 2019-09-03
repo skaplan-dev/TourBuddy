@@ -1,6 +1,7 @@
 import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { TourStats } from 'src/app/models/tourStats';
 import { isEmpty, sumBy, get, forEach, max, min } from 'lodash';
+import { TourDate } from 'src/app/models/tourDate';
 
 @Component({
   selector: 'app-driving-stats',
@@ -9,6 +10,8 @@ import { isEmpty, sumBy, get, forEach, max, min } from 'lodash';
 })
 export class DrivingStatsComponent implements OnChanges {
   @Input() directions: any;
+  @Input() tourDates: any;
+
   public tourStats: TourStats = {
     totalMiles: 0,
     hours: 0,
@@ -18,6 +21,7 @@ export class DrivingStatsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (
+      changes.directions &&
       !changes.directions.firstChange &&
       !isEmpty(changes.directions.currentValue)
     ) {
@@ -49,5 +53,18 @@ export class DrivingStatsComponent implements OnChanges {
       longestDrive: 0,
       shortestDrive: 0
     };
+  }
+
+  public getStatusTagColor(tourDate: TourDate): string {
+    if (tourDate) {
+      switch (tourDate.status) {
+        case 'In Progress':
+          return 'gold';
+        case 'Not Booked':
+          return 'red';
+        case 'Booked':
+          return 'green';
+      }
+    }
   }
 }
