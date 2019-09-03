@@ -106,7 +106,7 @@
                   let tourDate of tourDates | async | orderBy: 'date';
                   let i = index
                 "
-                [nzHeader]="tourDate.date.toDate() | date: 'shortDate'"
+                [nzHeader]="tourDate.date.toDate() | date: 'M/d'"
                 [nzExtra]="extraTpl"
               >
                 <app-tour-detail-form
