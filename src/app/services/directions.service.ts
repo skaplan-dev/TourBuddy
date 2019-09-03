@@ -163,6 +163,10 @@ export class DirectionsService {
       default:
         this.removeMiddleWaypoint(index, tourId);
     }
+
+    if (!this.directions.legs.length) {
+      this.deleteDirections(tourId);
+    }
   }
 
   private removeFrontWaypoint(tourId: string) {
@@ -206,6 +210,14 @@ export class DirectionsService {
       .collection<any>('directions')
       .doc(this.directionsId)
       .update(this.directions);
+  }
+
+  private deleteDirections(tourId: string) {
+    this.db
+      .doc<Tour>('tours/' + tourId)
+      .collection('directions')
+      .doc(this.directionsId)
+      .delete();
   }
 
   public updateWaypoint(waypoint: any, tourId: string, date: any) {

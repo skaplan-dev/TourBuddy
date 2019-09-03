@@ -1,21 +1,31 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AuthService } from './auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { BehaviorSubject, of } from 'rxjs';
+
+const FirestoreStub = {
+  collection: (name: string) => ({
+    doc: (_id: string) => ({
+      valueChanges: () => new BehaviorSubject({ foo: 'bar' }),
+      set: (_d: any) => new Promise((resolve, _reject) => resolve())
+    })
+  })
+};
+
+const authStub = {
+  authState: of({})
+};
 
 describe('AuthService', () => {
-  const authState = {
-    subscribe: () => ({})
-  };
-  const mockAngularFireAuth: any = {
-    authState: of(authState)
-  };
   beforeEach(() =>
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [{ provide: AngularFireAuth, useValue: mockAngularFireAuth }]
+      providers: [
+        { provide: AngularFireAuth, useValue: authStub },
+        { provide: AngularFirestore, useValue: FirestoreStub }
+      ]
     })
   );
 

@@ -1,97 +1,110 @@
-<form [formGroup]="form">
-  <div class="row">
-    <div class="col">
-      <mat-form-field appearance="outline">
-        <input
-          name="location"
-          matInput
-          placeholder="Location"
-          formControlName="location"
-        />
-        <mat-error *ngIf="form.controls.location.errors"
-          >Invalid location</mat-error
-        >
-      </mat-form-field>
+<form nz-form [formGroup]="form">
+  <div nz-row>
+    <div nz-col nzSpan="11">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Invalid location">
+          <input
+            name="location"
+            nz-input
+            placeholder="Location"
+            formControlName="location"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12" nzOffset="1">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            placeHolder="Select a contact"
+            name="contact"
+            formControlName="contact"
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let contact of contacts"
+              nzLabel="{{ contact.name }} - {{ contact.location }}"
+              nzValue="contact"
+            >
+              {{ contact.name }} -
+              <span class="contact-location">{{ contact.location }}</span>
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <mat-form-field appearance="outline">
-        <mat-chip-list #bandList>
-          <mat-chip *ngFor="let band of bands" (removed)="remove(band)">
-            {{ band.name }}
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col [nzXs]="11" [nzSm]="9">
+      <nz-form-item>
+        <nz-input-group>
           <input
-            name="bandNames"
-            matInput
-            placeholder="Artists"
-            [matChipInputFor]="bandList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="true"
-            formControlName="bandNames"
-            (matChipInputTokenEnd)="add($event)"
+            name="venue"
+            nz-input
+            placeholder="Venue"
+            formControlName="venue"
           />
-        </mat-chip-list>
-      </mat-form-field>
+        </nz-input-group>
+      </nz-form-item>
     </div>
 
-    <div class="col">
-      <mat-form-field appearance="outline">
-        <mat-select
-          formControlName="contact"
-          name="contact"
-          placeholder="Contact"
-          #singleSelect
-        >
-          <mat-option>
-            <ngx-mat-select-search
-              [placeholderLabel]="'Search...'"
-              [noEntriesFoundLabel]="'No matching contacts found'"
-              [formControl]="contactsFilterCtrl"
-            ></ngx-mat-select-search>
-          </mat-option>
-          <mat-option
-            *ngFor="let contact of filteredContacts | async"
-            [value]="contact"
-          >
-            <span class="row justify-content-between align-items-center">
-              <div class="col">
-                {{ contact.name }}
-              </div>
-              <div class="col text-right mat-small">
-                {{ contact.location }}
-              </div>
-            </span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+    <div nz-col [nzXs]="12" [nzSm]="4">
+      <nz-form-item>
+        <nz-input-group [nzPrefix]="prefixTemplate">
+          <input
+            name="guarantee"
+            nz-input
+            placeholder="Guarantee"
+            formControlName="guarantee"
+        /></nz-input-group>
+        <ng-template #prefixTemplate
+          ><i nz-icon nzType="dollar"></i
+        ></ng-template>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="9">
+      <nz-form-item>
+        <nz-select formControlName="status" nzPlaceHolder="Status">
+          <nz-option nzValue="Not Booked" nzLabel="Not Booked"></nz-option>
+          <nz-option nzValue="In Progress" nzLabel="In Progress"></nz-option>
+          <nz-option nzValue="Booked" nzLabel="Booked"></nz-option>
+        </nz-select>
+      </nz-form-item>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
+  <div nz-row>
+    <div nz-col [nzXs]="24" [nzSm]="16">
+      <nz-form-item>
         <textarea
+          nz-input
           name="notes"
           formControlName="notes"
           placeholder="Notes"
-          matInput
+          [nzAutosize]="{ minRows: 2, maxRows: 6 }"
         ></textarea>
-      </mat-form-field>
+      </nz-form-item>
     </div>
-    <div class="col-md-6" align="right">
-      <div id="button-container" class="pt-2">
-        <button
-          [disabled]="form.invalid"
-          mat-raised-button
-          (click)="validateLocation()"
-          color="primary"
-        >
-          Save
-        </button>
-        <button mat-button color="warn" (click)="deleteTourDate()">
-          Delete
-        </button>
+    <div nz-col [nzXs]="24" [nzSm]="8">
+      <div class="pt-2">
+        <div nz-row nzType="flex" nzJustify="end">
+          <div nz-col [nzSm]="7">
+            <button nz-button nzType="default" (click)="deleteTourDate()">
+              Delete
+            </button>
+          </div>
+          <div nz-col [nzSm]="7" nzOffset="1">
+            <button
+              nz-button
+              nzType="primary"
+              [disabled]="form.invalid"
+              (click)="validateLocation()"
+            >
+              Save
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

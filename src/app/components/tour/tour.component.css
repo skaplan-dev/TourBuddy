@@ -7,21 +7,22 @@ mat-card {
   width: 100%;
 }
 
-img,
-.img-container {
-  height: 300px;
-}
-
-span {
-  right: 5px;
-  top: 10px;
-  position: absolute;
+img {
+  height: 100%;
+  width: 100%;
 }
 
 .page-spinner {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -50px;
-  margin-top: -50px;
+}
+
+.tour-img {
+  height: 320px;
+  width: 100%;
+}
+
+.tour-flyer-container {
+  height: 320px;
 }

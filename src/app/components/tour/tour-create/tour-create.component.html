@@ -1,84 +1,56 @@
-<h2 mat-dialog-title>Create A Tour</h2>
-<form [formGroup]="form">
-  <mat-dialog-content>
-    <mat-form-field>
-      <input
+<form nz-form [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzRequired nzFor="tourName"
+      >Tour Name</nz-form-label
+    >
+    <nz-form-control [nzSpan]="18"
+      ><input
         name="tourName"
-        matInput
+        nz-input
         placeholder="Tour Name"
         formControlName="tourName"
-      />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-chip-list #bandList>
-        <mat-chip *ngFor="let band of bands" (removed)="remove(band)">
-          {{ band.name }}
-          <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-        <input
-          name="bandNames"
-          matInput
-          placeholder="Artists"
-          [matChipInputFor]="bandList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="true"
-          formControlName="bandNames"
-          (matChipInputTokenEnd)="add($event)"
-        />
-      </mat-chip-list>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
+    /></nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzRequired nzFor="startDate"
+      >Start Date</nz-form-label
+    >
+    <nz-form-control [nzSpan]="9">
+      <nz-date-picker
+        ngDefaultControl
         name="startDate"
-        [matDatepicker]="startDate"
         placeholder="Start date"
         formControlName="startDate"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="startDate"
-      ></mat-datepicker-toggle>
-      <mat-datepicker touchUi #startDate></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
+      ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzRequired nzFor="endDate"
+      >End Date</nz-form-label
+    >
+    <nz-form-control [nzSpan]="9">
+      <nz-date-picker
+        ngDefaultControl
         name="endDate"
-        [matDatepicker]="endDate"
         placeholder="End date"
         formControlName="endDate"
-      />
-      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-      <mat-datepicker touchUi #endDate></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <ngx-mat-file-input
-        formControlName="file"
-        placeholder="Upload Tour Flyer"
-        [accept]="['.pdf', '.img', '.jpg']"
-      ></ngx-mat-file-input>
-      <mat-icon matSuffix>folder</mat-icon>
-    </mat-form-field>
-
-    <div *ngIf="uploadPercent">
-      Creating Tour...
-      <mat-progress-bar
-        mode="determinate"
-        [value]="uploadPercent | async"
-      ></mat-progress-bar>
-    </div>
-  </mat-dialog-content>
-
-  <mat-dialog-actions class="pb-3" align="end">
-    <button
-      [disabled]="form.invalid"
-      mat-raised-button
-      (click)="onSubmit()"
-      color="primary"
-    >
-      Create
-    </button>
-    <button mat-button (click)="this.dialogRef.close()">Cancel</button>
-  </mat-dialog-actions>
+      ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <div nz-row>
+    <nz-form-item>
+      <nz-form-control nz-col nzOffset="6" [nzSpan]="9">
+        <nz-upload
+          [(nzFileList)]="fileList"
+          [nzBeforeUpload]="beforeUpload"
+          [nzAccept]="['image / png', 'image / jpeg', 'image / gif']"
+          [nzSize]="1000"
+        >
+          <button nz-button>
+            <i nz-icon nzType="upload"></i><span>Upload Tour Flyer File </span>
+          </button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
 </form>

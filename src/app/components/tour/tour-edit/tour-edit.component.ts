@@ -1,99 +1,44 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, DoCheck } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatChipInputEvent
-} from '@angular/material';
-import { Tour } from 'src/app/models/tour';
 import { FileService } from 'src/app/services/file.service';
-import { omit, forEach } from 'lodash';
-import { finalize } from 'rxjs/operators';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { UploadFile } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-tour-edit',
   templateUrl: './tour-edit.component.html',
   styleUrls: ['./tour-edit.component.css']
 })
-export class TourEditComponent implements OnInit {
+export class TourEditComponent implements OnInit, DoCheck {
+  @Input() tour: any;
   public bands = [];
   public form: FormGroup;
-  public uploadPercent: Observable<number>;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  constructor(
-    public dialogRef: MatDialogRef<TourEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
-    private fileService: FileService
-  ) {}
+  public fileList: UploadFile[] = [];
+  public formValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(private fb: FormBuilder, private fileService: FileService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       tourName: [
-        this.data.tourName,
+        this.tour.tourName,
         [Validators.required, Validators.maxLength(17)]
       ],
-      startDate: [this.data.startDate.toDate(), Validators.required],
-      endDate: [this.data.endDate.toDate(), Validators.required],
-      bandNames: [],
+      startDate: [this.tour.startDate.toDate(), Validators.required],
+      endDate: [this.tour.endDate.toDate(), Validators.required],
       file: []
     });
-
-    forEach(this.data.bandNames, bandName => {
-      this.bands.push({ name: bandName });
-    });
   }
 
-  public onSubmit() {
-    const tour: Tour = omit(this.form.value, ['file']);
-    tour.bandNames = this.bands.map(band => {
-      return band.name;
-    });
-
-    tour.id = this.data.id;
-    if (this.form.value.file) {
-      this.uploadFileAndClose(tour);
+  public ngDoCheck() {
+    if (this.form.valid) {
+      this.formValid.emit(true);
     } else {
-      this.dialogRef.close(tour);
+      this.formValid.emit(false);
     }
   }
 
-  public uploadFileAndClose(tour: Tour) {
-    const uploadObj = this.fileService.uploadFile(
-      this.form.value.file.files[0]
-    );
-    tour.flyerRef = uploadObj.filePath;
-    this.uploadPercent = uploadObj.task.percentageChanges();
-    uploadObj.task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          this.fileService.deleteFile(this.data.flyerRef);
-          this.dialogRef.close(tour);
-        })
-      )
-      .subscribe();
-  }
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    if ((value || '').trim()) {
-      this.bands.push({ name: value.trim() });
-    }
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  remove(chip: any): void {
-    const index = this.bands.indexOf(chip);
-
-    if (index >= 0) {
-      this.bands.splice(index, 1);
-    }
+  public beforeUpload = (file: UploadFile): boolean => {
+    this.fileList = this.fileList.concat(file);
+    return false;
   }
 }
