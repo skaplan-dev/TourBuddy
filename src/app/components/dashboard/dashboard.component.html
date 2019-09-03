@@ -1,8 +1,57 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span class="pl-2">Tour Buddy</span>
-    <div class="spacer"></div>
-    <ngx-auth-firebaseui-avatar></ngx-auth-firebaseui-avatar>
-  </mat-toolbar-row>
-</mat-toolbar>
+<nz-affix>
+  <div
+    id="header"
+    nz-row
+    nzType="flex"
+    nzJustify="space-between"
+    nzAlign="middle"
+    class="pt-3 pt-md-0"
+  >
+    <div nz-col [nzXs]="24" [nzSm]="6" id="header-logo-col">
+      <img id="header-logo" src="../../../assets/bus.png" />
+      | beta
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="8">
+      <div nz-row nzJustify="end" nzType="flex" nzAlign="middle">
+        <div nz-col [nzSm]="12" [nzXs]="16" class="center">
+          <ul nz-menu [nzMode]="'horizontal'" class="header-menu">
+            <li
+              nz-menu-item
+              [routerLink]="[
+                '/',
+                'dashboard',
+                { outlets: { main: ['tours'] } }
+              ]"
+              [nzMatchRouter]="true"
+            >
+              Tours
+            </li>
+            <li
+              nz-menu-item
+              [routerLink]="['/dashboard', { outlets: { main: ['contacts'] } }]"
+              [nzMatchRouter]="true"
+            >
+              Contacts
+            </li>
+            <li
+              nz-menu-item
+              [routerLink]="[
+                '/',
+                'dashboard',
+                { outlets: { main: ['about'] } }
+              ]"
+              [nzMatchRouter]="true"
+            >
+              About
+            </li>
+          </ul>
+        </div>
+        <div nz-col [nzSm]="12" [nzXs]="8" class="center">
+          <app-avatar nzAlign="middle"></app-avatar>
+        </div>
+      </div>
+    </div>
+  </div>
+</nz-affix>
+
 <router-outlet name="main"></router-outlet>

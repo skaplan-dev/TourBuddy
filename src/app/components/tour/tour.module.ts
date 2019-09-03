@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { environment } from '../../../environments/environment.dev';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
-import { MaterialModule } from 'src/app/material/material.module';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { TourComponent } from './tour.component';
 import { MapComponent } from './map/map.component';
@@ -19,6 +18,9 @@ import { CommonModule } from '@angular/common';
 import { DrivingStatsComponent } from './driving-stats/driving-stats.component';
 import { TourDetailFormComponent } from './tour-detail/tour-detail-form/tour-detail-form.component';
 import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
+import { NzModule } from 'src/app/nz/nz.module';
+import { BudgetsComponent } from './tour-detail/budgets/budgets.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -32,12 +34,12 @@ import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
     TourDateCreateComponent,
     DrivingStatsComponent,
     TourDetailFormComponent,
-    DirectionsFilterPipe
+    DirectionsFilterPipe,
+    BudgetsComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
     }),
@@ -45,7 +47,9 @@ import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
     ReactiveFormsModule,
     LazyLoadImageModule,
     OrderModule,
-    TourRoutingModule
+    NzModule,
+    TourRoutingModule,
+    FlexLayoutModule
   ],
   entryComponents: [
     TourCreateComponent,

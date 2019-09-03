@@ -1,0 +1,64 @@
+<div class="container mt-3" height="100%">
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="12">
+      <h2 nz-title>Profile</h2>
+    </div>
+  </div>
+
+  <nz-card *ngIf="user$ | async as user">
+    <div nz-row nzType="flex" nzJustify="space-between">
+      <span id="edit">
+        <span class="pr-2">Edit</span>
+        <nz-switch [(ngModel)]="showEdit"></nz-switch>
+      </span>
+      <div nz-col [nzXs]="24" [nzSm]="3" class="center">
+        <div nz-row>
+          <nz-avatar
+            class="mb-3"
+            [nzSize]="128"
+            nzIcon="user"
+            [nzSrc]="user.photoURL"
+          ></nz-avatar>
+        </div>
+        <div nz-row>
+          <nz-upload
+            nzAction="https://jsonplaceholder.typicode.com/posts/"
+            [nzCustomRequest]="customReq"
+            [nzShowUploadList]="false"
+          >
+            <button nz-button nzType="primary">
+              <i nz-icon nzType="upload"></i><span>Upload Photo</span>
+            </button>
+          </nz-upload>
+        </div>
+      </div>
+      <div [hidden]="!showEdit" nz-col [nzXs]="24" [nzSm]="20" class="mt-3">
+        <div class="mb-2">Display Name</div>
+        <input nz-input placeholder="Display Name" [(ngModel)]="displayName" />
+        <nz-divider></nz-divider>
+        <div class="mb-2">Email</div>
+        <input nz-input placeholder="Email" [(ngModel)]="email" />
+        <nz-divider></nz-divider>
+        <button nz-button (click)="saveProfile()">
+          <i nz-icon nzType="sync"></i> Save
+        </button>
+      </div>
+      <div [hidden]="showEdit" nz-col [nzXs]="24" [nzSm]="20">
+        <nz-statistic
+          [nzValue]="user.displayName"
+          [nzTitle]="'Display Name'"
+        ></nz-statistic>
+        <nz-divider></nz-divider>
+        <nz-statistic [nzValue]="user.email" [nzTitle]="'Email'"></nz-statistic>
+        <nz-divider></nz-divider>
+        <div nz-row>
+          <div nz-col>
+            <button nz-button (click)="changePassword()">
+              <i nz-icon nzType="sync"></i> Change Password
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-card>
+</div>

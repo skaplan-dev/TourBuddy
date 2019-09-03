@@ -18,7 +18,9 @@ const routes: Routes = [
     canActivate: [LoggedInGuard],
     component: DashboardComponent,
     loadChildren: () =>
-      import('./components/tour/tour.module').then(m => m.TourModule)
+      import('./components/dashboard/dashboard.module').then(
+        m => m.DashboardModule
+      )
   },
   {
     path: '**',

@@ -1,66 +1,65 @@
 <div class="container pt-3" height="100%">
-  <h1 class="mat-display-1 mb-3">My Tours</h1>
-  <div *ngIf="tours">
-    <button (click)="createTour()" color="primary" mat-raised-button>
-      Create Tour
-    </button>
+  <h2 nz-title class="mb-3">My Tours</h2>
+  <button nz-button nzType="primary" (click)="openModal()" color="primary">
+    Create Tour
+  </button>
 
+  <div *ngIf="tours | async as tours">
     <div
       class="pt-3"
       fxLayout="row wrap"
       fxLayoutGap.gt-sm="10px"
-      fxLayoutGap.gt-xs="5px"
+      fxLayoutGap.gt-xs="10px"
     >
       <div
         class="card-wrapper pb-3"
-        *ngFor="let tour of tours | async"
+        *ngFor="let tour of tours"
         fxFlex.gt-sm="24%"
         fxFlex.gt-xs="48%"
-        [routerLink]="['../tour', tour.id, tour.tourName]"
-        (mouseover)="tour.showOptions = true"
-        (mouseout)="tour.showOptions = false"
+        [routerLink]="['./', tour.id]"
       >
-        <mat-card class="pb-0">
-          <mat-card-header>
-            <mat-card-title> {{ tour.tourName }}</mat-card-title>
-            <mat-card-subtitle
-              >{{ tour.startDate.toDate() | date }} -
-              {{ tour.endDate.toDate() | date }}</mat-card-subtitle
-            >
-            <span [hidden]="!tour.showOptions">
-              <button mat-icon-button (click)="onCogClick($event)">
-                <mat-icon [matMenuTriggerFor]="menu" matSuffix
-                  >settings</mat-icon
-                >
-              </button>
-              <mat-menu #menu="matMenu" (mouseover)="tour.showOptions = true">
-                <button mat-menu-item (click)="editTour(tour)">
-                  Edit Tour
-                </button>
-                <button mat-menu-item>Delete Tour</button>
-              </mat-menu>
-            </span>
-          </mat-card-header>
-          <div *ngIf="tour.src" class="img-container pt-3">
-            <img
-              [hidden]="!tour.src.loaded"
-              mat-card-image
-              [src]="tour.src | async"
-              (load)="tour.src.loaded = true"
-              alt="Tour Flyer"
-            />
-            <div *ngIf="!tour.src.loaded" class="page-spinner">
-              <mat-spinner></mat-spinner>
+        <nz-card [nzCover]="coverTemplate" [nzHoverable]="true">
+          <nz-card-meta
+            nzTitle="{{ tour.tourName }}"
+            nzDescription=" {{ tour.startDate.toDate() | date }} -
+            {{ tour.endDate.toDate() | date }}"
+          ></nz-card-meta>
+        </nz-card>
+        <ng-template #coverTemplate>
+          <div class="tour-flyer-container">
+            <div *ngIf="tour.src" class="tour-img">
+              <img
+                [hidden]="!tour.src.loaded"
+                [src]="tour.src | async"
+                (load)="tour.src.loaded = true"
+                alt="Tour Flyer"
+              />
+              <div *ngIf="!tour.src.loaded" class="page-spinner">
+                <nz-spin nzSimple></nz-spin>
+              </div>
+            </div>
+            <div *ngIf="!tour.src">
+              <nz-empty
+                [ngStyle]="{ 'padding-top': '95px' }"
+                [nzNotFoundContent]="contentTpl"
+                [nzNotFoundFooter]="footerTpl"
+              >
+                <ng-template #contentTpl>
+                  <span> No flyer uploaded </span>
+                </ng-template>
+              </nz-empty>
             </div>
           </div>
-          <div *ngIf="!tour.src" class="img-container pt-3">
-            <img
-              mat-card-image
-              src="https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzEwNC84MTkvb3JpZ2luYWwvY3V0ZS1raXR0ZW4uanBn"
-            />
-          </div>
-        </mat-card>
+        </ng-template>
       </div>
+    </div>
+    <div *ngIf="tours.length == 0">
+      <nz-card>
+        <nz-empty [nzNotFoundContent]="contentTpl"></nz-empty>
+        <ng-template #contentTpl>
+          <span> No tours added. Click above to create one!</span>
+        </ng-template>
+      </nz-card>
     </div>
   </div>
 </div>

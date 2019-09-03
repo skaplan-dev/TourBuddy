@@ -25,4 +25,8 @@ export class FileService {
     console.log(filePath);
     this.storage.ref(filePath).delete();
   }
+
+  public deleteFileFromURL(url: string) {
+    this.storage.storage.refFromURL(url).delete();
+  }
 }

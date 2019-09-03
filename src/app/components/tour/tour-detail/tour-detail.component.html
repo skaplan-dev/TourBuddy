@@ -1,78 +1,168 @@
 <div class="container mt-3" height="100%">
-  <div id="spinner" *ngIf="showSpinner">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-6 col-6">
-      <h1 class="mat-display-1 mb-0">{{ tourName }}</h1>
+  <div nz-row nzType="flex" nzJustify="space-between">
+    <div nz-col nzSpan="12">
+      <h2 nz-title>
+        {{ tour.tourName }}
+      </h2>
     </div>
-    <div class="col-md-2 col-6">
-      <button
-        class="float-right"
-        (click)="createTourDate()"
-        color="primary"
-        mat-raised-button
-      >
-        Create Tour Date
-      </button>
-    </div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-md-8 mb-3">
-      <mat-card>
-        <mat-card-title> Tour Dates</mat-card-title>
-        <div id="tourDatesAccordion" *ngIf="tourDates" #accordion>
-          <mat-accordion>
-            <mat-expansion-panel
-              *ngFor="
-                let tourDate of tourDates | async | orderBy: 'date';
-                let i = index
-              "
-            >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{ tourDate.date.toDate() | date: 'shortDate' }}
-                </mat-panel-title>
-                <mat-panel-description>
-                  {{ tourDate.location }}
-                  <!-- This is very bad dont do this pls for the love of GOD-->
-                  <mat-chip [color]=""
-                    >{{
-                      directions | async | directionsFilter: i
-                    }}
-                    hrs</mat-chip
-                  >
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <app-tour-detail-form
-                (tourSaved)="updateTourDate($event)"
-                (tourDeleted)="deleteTourDate($event)"
-                [tourDate]="tourDate"
-              ></app-tour-detail-form>
-            </mat-expansion-panel>
-          </mat-accordion>
+    <div nz-col nzSpan="12">
+      <div nz-row nzType="flex" nzJustify="end">
+        <div nz-col>
+          <button nz-button nz-dropdown [nzDropdownMenu]="menu">
+            <i nz-icon nzType="setting" nzTheme="outline"></i>
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item (click)="openTourEditModal()">Edit Tour</li>
+              <li nz-menu-item (click)="deleteTour()">Delete Tour</li>
+            </ul>
+          </nz-dropdown-menu>
         </div>
-      </mat-card>
-    </div>
-    <div class="col justify-content-center">
-      <mat-card>
-        <mat-card-title>Driving Stats</mat-card-title>
-        <mat-card-content
-          ><app-driving-stats
-            [directions]="directions | async"
-          ></app-driving-stats
-        ></mat-card-content>
-      </mat-card>
+        <div nz-col nzOffset="1">
+          <button nz-button class="float-right" (click)="onBackToggle()">
+            Back
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="row mb-3">
-    <div class="col">
-      <mat-card>
-        <mat-card-title>Map</mat-card-title>
+  <div nz-row nzGutter="10">
+    <div nz-col [nzXs]="24" [nzSm]="6">
+      <div nz-row id="tour-flyer-container" [hidden]="isMobile">
+        <nz-card class="tour-flyer" *ngIf="!tour.src">
+          <nz-empty
+            [ngStyle]="{ 'padding-top': '50px' }"
+            [nzNotFoundContent]="contentTpl"
+            [nzNotFoundFooter]="footerTpl"
+          >
+            <ng-template #contentTpl>
+              <span> No flyer uploaded </span>
+            </ng-template>
+            <ng-template #footerTpl>
+              <nz-upload
+                nzAction="https://jsonplaceholder.typicode.com/posts/"
+                [nzCustomRequest]="customReq"
+              >
+                <button nz-button nzType="primary">
+                  <i nz-icon nzType="upload"></i><span>Upload</span>
+                </button>
+              </nz-upload>
+            </ng-template></nz-empty
+          >
+        </nz-card>
+        <nz-card class="tour-flyer" *ngIf="tour.src" [nzCover]="coverTemplate">
+        </nz-card>
+        <ng-template #coverTemplate>
+          <img
+            id="tour-img"
+            [hidden]="!tour.src.loaded"
+            [src]="tour.src | async"
+            (load)="tour.src.loaded = true"
+            alt="Tour Flyer"
+          />
+          <div *ngIf="!tour.src.loaded" class="spinner">
+            <nz-spin nzSimple></nz-spin>
+          </div>
+        </ng-template>
+      </div>
+      <div nz-row>
+        <ul nz-menu nzMode="inline">
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzPlacement="right"
+            [nzSelected]="true"
+            (click)="setCenterContent('tourDates')"
+          >
+            <i nz-icon nzType="car"></i> <span>Tour Dates</span>
+          </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzPlacement="right"
+            (click)="setCenterContent('drivingStats')"
+          >
+            <i nz-icon nzType="pie-chart"></i> <span>Driving Stats</span>
+          </li>
+          <li
+            nz-menu-item
+            nz-tooltip
+            nzPlacement="right"
+            (click)="setCenterContent('budgets')"
+          >
+            <i nz-icon nzType="dollar"></i> <span>Budgets</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div nz-col [nzXs]="24" [nzSm]="18">
+      <div [hidden]="centerContent !== 'tourDates'">
+        <nz-card nzTitle="Tour Dates" [nzExtra]="cardExtra">
+          <div class="centerContent" *ngIf="tourDates">
+            <nz-collapse>
+              <nz-collapse-panel
+                *ngFor="
+                  let tourDate of tourDates | async | orderBy: 'date';
+                  let i = index
+                "
+                [nzHeader]="tourDate.date.toDate() | date: 'shortDate'"
+                [nzExtra]="extraTpl"
+              >
+                <app-tour-detail-form
+                  (tourSaved)="updateTourDate($event)"
+                  (tourDeleted)="deleteTourDate($event)"
+                  [tourDate]="tourDate"
+                ></app-tour-detail-form>
+                <ng-template #extraTpl>
+                  {{ tourDate.location }} -
+                  <nz-tag [nzColor]="getStatusTagColor(tourDate)">{{
+                    tourDate.status
+                  }}</nz-tag></ng-template
+                >
+              </nz-collapse-panel>
+              <div class="spinner" *ngIf="showSpinner">
+                <nz-spin nzSimple></nz-spin>
+              </div>
+            </nz-collapse>
+          </div>
+        </nz-card>
+        <ng-template #cardExtra>
+          <button
+            nz-button
+            [nzSize]="'small'"
+            nzType="primary"
+            class="float-right"
+            (click)="openTourDateCreateModal()"
+            color="primary"
+          >
+            Create Tour Date
+          </button>
+        </ng-template>
+      </div>
+      <div [hidden]="centerContent !== 'drivingStats'">
+        <nz-card nzTitle="Driving Stats">
+          <div class="centerContent">
+            <app-driving-stats
+              [directions]="directions | async"
+              [tourDates]="tourDates | async"
+            ></app-driving-stats>
+          </div>
+        </nz-card>
+      </div>
+      <div [hidden]="centerContent !== 'budgets'">
+        <nz-card nzTitle="Budgets">
+          <div class="centerContent"><app-budgets></app-budgets></div>
+        </nz-card>
+      </div>
+    </div>
+  </div>
+
+  <div nzRow class=" mb-3">
+    <div nz-col>
+      <nz-card nzTitle="Map">
         <app-map [directions]="directions | async"></app-map>
-      </mat-card>
+      </nz-card>
     </div>
   </div>
 </div>

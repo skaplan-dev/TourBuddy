@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,15 +8,5 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   public opened: boolean = true;
 
-  constructor(private router: Router) {}
-
-  ngOnInit() {}
-
-  public toggleSidebar() {
-    this.opened = !this.opened;
-  }
-
-  public signOut() {
-    this.router.navigate(['login']);
-  }
+  public ngOnInit() {}
 }

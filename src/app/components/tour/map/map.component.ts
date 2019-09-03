@@ -16,8 +16,8 @@ import { DirectionsService } from 'src/app/services/directions.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnChanges {
-  @ViewChild('map', { static: false }) map: any;
   @Input() directions: any;
+  @ViewChild('map', { static: false }) map: any;
   public directionsId: string;
 
   constructor(private directionsService: DirectionsService) {}

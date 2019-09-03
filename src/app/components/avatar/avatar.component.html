@@ -1,0 +1,18 @@
+<div *ngIf="user">
+  <a nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomLeft'">
+    <nz-avatar nzIcon="user" [nzSrc]="user.photoURL"></nz-avatar>
+  </a>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu>
+      <li
+        nz-menu-item
+        [routerLink]="['/', 'dashboard', { outlets: { main: ['profile'] } }]"
+      >
+        <i nz-icon nzType="user" nzTheme="outline"></i><span>Profile</span>
+      </li>
+      <li nz-menu-item (click)="signOut()">
+        <i nz-icon nzType="logout" nzTheme="outline"></i><span>Logout</span>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>
