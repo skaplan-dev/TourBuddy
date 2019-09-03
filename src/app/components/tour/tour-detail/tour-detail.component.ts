@@ -31,7 +31,7 @@ export class TourDetailComponent implements OnInit, OnDestroy {
   public showSpinner: boolean = true;
   public tourId: string;
   public directions: Observable<MapboxDirections[]>;
-  public tour: Observable<any>;
+  public tour: any;
   public centerContent = 'tourDates';
   public modalRef: NzModalRef;
   public isMobile: boolean;

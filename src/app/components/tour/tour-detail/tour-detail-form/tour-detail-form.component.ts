@@ -6,11 +6,8 @@ import {
   Validators,
   FormControl
 } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material';
 import { Contact } from 'src/app/models/contact';
-import { ReplaySubject } from 'rxjs';
 import { MapboxService } from 'src/app/services/mapbox.service';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-tour-detail-form',

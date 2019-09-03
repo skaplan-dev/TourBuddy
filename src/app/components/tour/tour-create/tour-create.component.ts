@@ -1,10 +1,5 @@
 import { Component, OnInit, EventEmitter, DoCheck } from '@angular/core';
-import { Tour } from 'src/app/models/tour';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { omit } from 'lodash';
-import { FileService } from 'src/app/services/file.service';
-import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { UploadFile } from 'ng-zorro-antd';
 
 @Component({

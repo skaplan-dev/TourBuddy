@@ -43,7 +43,7 @@
         <nz-upload
           [(nzFileList)]="fileList"
           [nzBeforeUpload]="beforeUpload"
-          [nzAccept]="[image / png, image / jpeg, image / gif]"
+          [nzAccept]="['image / png', 'image / jpeg', 'image / gif']"
           [nzSize]="1000"
         >
           <button nz-button>

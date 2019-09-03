@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": false,
             "outputPath": "dist/TourBuddy",
             "index": "src/index.html",
             "main": "src/main.ts",

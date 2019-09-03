@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { environment } from '../../../environments/environment.dev';
 import { TourDetailComponent } from './tour-detail/tour-detail.component';
-import { MaterialModule } from 'src/app/material/material.module';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { TourComponent } from './tour.component';
 import { MapComponent } from './map/map.component';
@@ -21,6 +20,7 @@ import { TourDetailFormComponent } from './tour-detail/tour-detail-form/tour-det
 import { DirectionsFilterPipe } from 'src/app/pipes/directions-filter.pipe';
 import { NzModule } from 'src/app/nz/nz.module';
 import { BudgetsComponent } from './tour-detail/budgets/budgets.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { BudgetsComponent } from './tour-detail/budgets/budgets.component';
   imports: [
     CommonModule,
     RouterModule,
-    MaterialModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
     }),
@@ -49,7 +48,8 @@ import { BudgetsComponent } from './tour-detail/budgets/budgets.component';
     LazyLoadImageModule,
     OrderModule,
     NzModule,
-    TourRoutingModule
+    TourRoutingModule,
+    FlexLayoutModule
   ],
   entryComponents: [
     TourCreateComponent,

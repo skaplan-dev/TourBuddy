@@ -5,8 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
-import { UserOutline } from '@ant-design/icons-angular/icons';
-import { IconDefinition } from '@ant-design/icons-angular';
 
 describe('AvatarComponent', () => {
   let component: AvatarComponent;
