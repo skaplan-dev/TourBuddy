@@ -17,8 +17,8 @@ export class TourCreateComponent implements OnInit, DoCheck {
   public ngOnInit() {
     this.form = this.fb.group({
       tourName: ['', [Validators.required, Validators.maxLength(17)]],
-      startDate: [Validators.required],
-      endDate: [Validators.required]
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required]
     });
   }
 
@@ -33,5 +33,5 @@ export class TourCreateComponent implements OnInit, DoCheck {
   public beforeUpload = (file: UploadFile): boolean => {
     this.fileList = this.fileList.concat(file);
     return false;
-  }
+  };
 }
